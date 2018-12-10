@@ -1,10 +1,18 @@
 const { app, BrowserWindow } = require('electron');
 
+
+const DEBUG = false;
+
 let win;
 
 function createWindow() {
-    win = new BrowserWindow({ width: 800, height: 600 });
+    win = new BrowserWindow({ width: 300, height: 200 });
     win.loadFile('index.html');
+
+    if (DEBUG) {
+        win.webContents.openDevTools();
+    }
+
     win.on('closed', function () {
         win = null;
     });
