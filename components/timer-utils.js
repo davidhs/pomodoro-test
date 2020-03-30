@@ -7,30 +7,30 @@ const DEBUG = false;
  * 
  * @returns time object
  */
-function parseTimeStringAsTimeObject(timestring) {
-    
-    const parts = timestring.split(':').map((part) => parseInt(part.trim(), 10));
+export function parseTimeStringAsTimeObject(timestring) {
 
-    if (parts.length > 3) {
-        throw Error('this should not happen');
-    }
+  const parts = timestring.split(':').map((part) => parseInt(part.trim(), 10));
 
-    // seconds, minutes, hours
-    const timeList = [0, 0, 0];
+  if (parts.length > 3) {
+    throw Error('this should not happen');
+  }
 
-    const n = parts.length;
-    for (let i = n - 1, j = 0; i >= 0; i -= 1, j += 1) {
-        timeList[j] = parts[i];
-    }
+  // seconds, minutes, hours
+  const timeList = [0, 0, 0];
+
+  const n = parts.length;
+  for (let i = n - 1, j = 0; i >= 0; i -= 1, j += 1) {
+    timeList[j] = parts[i];
+  }
 
 
-    const timeObject = {
-        seconds: timeList[0],
-        minutes: timeList[1],
-        hours: timeList[2]
-    };
+  const timeObject = {
+    seconds: timeList[0],
+    minutes: timeList[1],
+    hours: timeList[2]
+  };
 
-    return timeObject;
+  return timeObject;
 }
 
 /**
@@ -42,24 +42,24 @@ function parseTimeStringAsTimeObject(timestring) {
  * 
  * @returns normalized time object
  */
-function getNormalizedTimeObject(timeObject) {
+export function getNormalizedTimeObject(timeObject) {
 
-    // in seconds
-    let timeRemaining = getTimeFromTimeObject(timeObject);
-    
-    const hours = Math.floor(timeRemaining / (60 * 60));
+  // in seconds
+  let timeRemaining = getTimeFromTimeObject(timeObject);
 
-    timeRemaining = timeRemaining - (60 * 60) * hours;
+  const hours = Math.floor(timeRemaining / (60 * 60));
 
-    const minutes = Math.floor(timeRemaining / (60));
+  timeRemaining = timeRemaining - (60 * 60) * hours;
 
-    timeRemaining = timeRemaining - (60) * minutes;
+  const minutes = Math.floor(timeRemaining / (60));
 
-    const seconds = timeRemaining;
+  timeRemaining = timeRemaining - (60) * minutes;
 
-    const normalizedTimeObject = { seconds, minutes, hours };
+  const seconds = timeRemaining;
 
-    return normalizedTimeObject;
+  const normalizedTimeObject = { seconds, minutes, hours };
+
+  return normalizedTimeObject;
 }
 
 
@@ -68,8 +68,8 @@ function getNormalizedTimeObject(timeObject) {
  * @param {time object} timeObject 
  * @returns returns time in seconds
  */
-function getTimeFromTimeObject(timeObject) {
-    return timeObject.seconds + timeObject.minutes * 60 + timeObject.hours * 60 * 60;
+export function getTimeFromTimeObject(timeObject) {
+  return timeObject.seconds + timeObject.minutes * 60 + timeObject.hours * 60 * 60;
 }
 
 /**
@@ -78,8 +78,8 @@ function getTimeFromTimeObject(timeObject) {
  * 
  * @returns time {number}
  */
-function getTimeFromTimeString(timeString) {
-    return getTimeFromTimeObject(getNormalizedTimeObject(parseTimeStringAsTimeObject(timeString)));
+export function getTimeFromTimeString(timeString) {
+  return getTimeFromTimeObject(getNormalizedTimeObject(parseTimeStringAsTimeObject(timeString)));
 }
 
 
@@ -88,86 +88,78 @@ function getTimeFromTimeString(timeString) {
  * 
  * @param {*} time Time in seconds
  */
-function getFormattedTimeStringFromTime(time) {
+export function getFormattedTimeStringFromTime(time) {
 
 
-    if (DEBUG) {
-        console.info(`getFormattedTimeStringFromTime(): time: ${time}`);
-    }
+  if (DEBUG) {
+    console.info(`getFormattedTimeStringFromTime(): time: ${time}`);
+  }
 
-    // in seconds
-    let timeRemaining = time;
-    
-    const hours = Math.floor(timeRemaining / (60 * 60));
+  // in seconds
+  let timeRemaining = time;
 
-    timeRemaining = timeRemaining - (60 * 60) * hours;
+  const hours = Math.floor(timeRemaining / (60 * 60));
 
-    const minutes = Math.floor(timeRemaining / (60));
+  timeRemaining = timeRemaining - (60 * 60) * hours;
 
-    timeRemaining = timeRemaining - (60) * minutes;
+  const minutes = Math.floor(timeRemaining / (60));
 
-    const seconds = timeRemaining;
+  timeRemaining = timeRemaining - (60) * minutes;
 
-    let timeString = '';
+  const seconds = timeRemaining;
 
-    if (hours > 0) {
+  let timeString = '';
 
-        timeString = hours;
-        if (minutes > 0) {
-            if (minutes < 10) {
-                timeString = timeString + ':0' + minutes; 
-            } else {
-                timeString = timeString + ':' + minutes;
-            }
-            if (seconds > 0) {
-                if (seconds < 10) {
-                    timeString = timeString + ':0' + seconds;
-                } else {
-                    timeString = timeString + ':' + seconds;
-                }
-            } else {
-                timeString = timeString + ':00';
-            }
+  if (hours > 0) {
+
+    timeString = hours;
+    if (minutes > 0) {
+      if (minutes < 10) {
+        timeString = timeString + ':0' + minutes;
+      } else {
+        timeString = timeString + ':' + minutes;
+      }
+      if (seconds > 0) {
+        if (seconds < 10) {
+          timeString = timeString + ':0' + seconds;
         } else {
-            timeString = timeString + ':00';
-            if (seconds > 0) {
-                if (seconds < 10) {
-                    timeString = timeString + ':0' + seconds;
-                } else {
-                    timeString = timeString + ':' + seconds;
-                }
-            } else {
-                timeString = timeString + ':00';
-            }
+          timeString = timeString + ':' + seconds;
         }
+      } else {
+        timeString = timeString + ':00';
+      }
     } else {
-        if (minutes > 0) {
-            timeString = minutes;
-            if (seconds > 0) {
-                if (seconds < 10) {
-                    timeString = timeString + ':0' + seconds;
-                } else {
-                    timeString = timeString + ':' + seconds;
-                }
-            } else {
-                timeString = timeString + ':00';
-            }
+      timeString = timeString + ':00';
+      if (seconds > 0) {
+        if (seconds < 10) {
+          timeString = timeString + ':0' + seconds;
         } else {
-            timeString = seconds;
+          timeString = timeString + ':' + seconds;
         }
+      } else {
+        timeString = timeString + ':00';
+      }
     }
-
-    if (DEBUG) {
-        console.info(`getFormattedTimeStringFromTime(): timestring: ${timeString}`);
+  } else {
+    if (minutes > 0) {
+      timeString = minutes;
+      if (seconds > 0) {
+        if (seconds < 10) {
+          timeString = timeString + ':0' + seconds;
+        } else {
+          timeString = timeString + ':' + seconds;
+        }
+      } else {
+        timeString = timeString + ':00';
+      }
+    } else {
+      timeString = seconds;
     }
+  }
 
-    return timeString;
+  if (DEBUG) {
+    console.info(`getFormattedTimeStringFromTime(): timestring: ${timeString}`);
+  }
+
+  return timeString;
 }
-
-module.exports = {
-    parseTimeStringAsTimeObject,
-    getNormalizedTimeObject,
-    getTimeFromTimeObject,
-    getTimeFromTimeString,
-    getFormattedTimeStringFromTime
-};

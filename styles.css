@@ -70,7 +70,6 @@ body {
 }
 
 .timer__button {
-
     display: flex;
 
     transition: background-color 0.2s ease;
@@ -96,7 +95,6 @@ body {
     margin: 0 auto;
 
     font-weight: 1000;
-    
 }
 
 

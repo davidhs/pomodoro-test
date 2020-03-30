@@ -4,21 +4,15 @@
   "description": "Pomodoro application",
   "main": "app.js",
   "scripts": {
-    "start": "electron .",
+    "start": "npx electron .",
     "build": "build -m"
   },
   "devDependencies": {
-    "electron": "^3.0.7",
-    "electron-builder": "^20.44.1",
-    "eslint": "^5.10.0",
-    "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-node": "^8.0.0",
-    "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0"
+    "electron": "^8",
+    "electron-builder": "^22"
   },
   "dependencies": {
-    "electron-store": "^2.0.0"
+    "electron-store": "^5"
   },
   "productName": "Pomodoro"
 }
